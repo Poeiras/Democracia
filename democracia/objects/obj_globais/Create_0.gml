@@ -1,2 +1,2 @@
 /// @description variáveis globais
-global.gravidade = 8;
+global.gravidade = 0.25;

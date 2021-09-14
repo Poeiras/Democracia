@@ -9,6 +9,7 @@
     {"id":{"name":"spr_player_jump","path":"sprites/spr_player_jump/spr_player_jump.yy",},"order":1,},
     {"id":{"name":"spr_player_run","path":"sprites/spr_player_run/spr_player_run.yy",},"order":0,},
     {"id":{"name":"spr_globais","path":"sprites/spr_globais/spr_globais.yy",},"order":1,},
+    {"id":{"name":"sct_player_debug","path":"scripts/sct_player_debug/sct_player_debug.yy",},"order":2,},
     {"id":{"name":"Room1","path":"rooms/Room1/Room1.yy",},"order":0,},
   ],
   "Options": [
@@ -55,7 +56,7 @@
   ],
   "IncludedFiles": [],
   "MetaData": {
-    "IDEVersion": "2.3.4.577",
+    "IDEVersion": "2.3.4.580",
   },
   "resourceVersion": "1.4",
   "name": "democracia",

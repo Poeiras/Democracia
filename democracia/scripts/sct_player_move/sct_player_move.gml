@@ -1,65 +1,112 @@
 //Descrição
-function sct_player_move(velocidade, deslize, pulo)
+function sct_player_move(velocidade, pulo, desce,velo_run)
 {
+	#region Argumentos
 	///@arg velocidade
-	///@arg deslize
-	///@arg pulo
+	///@arg força do pulo
+	///@arg velocidade descida
+	///@arg velocidade de corrida
+	#endregion
 	
 	#region Teclas
-	var dir, esq, cima, baixo;
-	dir = keyboard_check(ord("D"));
-	esq = keyboard_check(ord("A"));
-	cima = keyboard_check_pressed(ord("W"));
-	baixo = keyboard_check_pressed(ord("S"));
+		var cima,cima_r,baixo,baixo_r,dir,dir_r,esq,esq_r,run;
+		cima = keyboard_check_pressed(ord("W"));
+		cima_r = keyboard_check_released(ord("W"));
+		baixo = keyboard_check(ord("S"));
+		baixo_r = keyboard_check_released(ord("S"));
+		dir = keyboard_check(ord("D"));
+		dir_r = keyboard_check_released(ord("D"));
+		esq = keyboard_check(ord("A"));
+		esq_r = keyboard_check_released(ord("A"));
+		run = keyboard_check(vk_shift);
 	#endregion
 	
-	#region Cálculo de movimento
-	//Horizontal
-	var h1, horizontal;
-	h1 = dir - esq;
-	horizontal = h1 * velocidade;
-	velh_atual = horizontal;
-	
-	//Vertical
-	var vertical;
-	vertical = 0;
-	vertical = vertical + global.gravidade;
-	velv_atual = vertical;
-	
+	#region Variáveis locais
+		var solido, multiplicador_pulo, h1, h2, preso;
+		solido = place_meeting(x, y + 4, obj_bloco);
+		multiplicador_pulo = 1.25;
+		h1 = dir - esq;
+		h2 = x + horizontal;
+		preso = place_meeting(x + sign(horizontal), y, obj_bloco);
 	#endregion
 	
-	#region Pulo
-	if (cima && place_meeting(x, y + 1, obj_bloco))
-		{
-			vertical = -pulo * global.gravidade;
-		}
+	#region Cálculo de movimento horizontal
+		if(!run)
+			{	
+				horizontal = h1 * velocidade;
+			}
+		else
+			{
+				horizontal = h1 * (velocidade * velo_run);
+			}
+		velh_atual = horizontal;
 	#endregion
 	
 	#region Colisão horizontal
-	if(place_meeting(x + horizontal, y, obj_bloco))
+	if(place_meeting(h2, y, obj_bloco))
 		{
-			while(!place_meeting(x+sign(horizontal), y, obj_bloco))
-			{
-				x = x + sign(horizontal);
-			}
+			while(!place_meeting(x + sign(horizontal), y, obj_bloco))
+				{
+					x = x + sign(horizontal);
+				}
 			horizontal = 0;
 		}
 	#endregion
 	
-	#region Colisão vertical
-	if(place_meeting(x, y + vertical, obj_bloco))
-		{
-			while(!place_meeting(x, y+sign(vertical),obj_bloco))
+	
+	#region Movimento horizontal aplicado
+		x = x + horizontal;
+	#endregion
+	
+	#region Gravidade, pulo, comando descende
+	velv_atual = vertical;
+		if (!solido)
 			{
-				y = y + sign(vertical);
+			vertical += global.gravidade;
+			if(cima_r && vertical < 0)
+				{
+					vertical = vertical * 0.5;
+				}
+			
+			if (baixo &&! solido)
+				{
+					vertical = desce;
+					if(baixo_r)
+						{
+							vertical = vertical*0.7;
+						}
+				}
 			}
-			vertical = 0;
+		if (solido)
+		{
+			if(cima)
+				{
+					vertical = pulo;
+				}
+			if(cima && run &&! horizontal = 0)
+				{
+					vertical = pulo * multiplicador_pulo;
+				}
+			if(cima and baixo)
+				{
+					vertical = 0;
+				}
 		}
 	#endregion
 	
-	#region Movimento aplicado
-	x = x + horizontal;
-	y = y + vertical;
+	#region Colisão vertical
+		repeat (abs(vertical))
+			{
+				if (!place_meeting(x,y+sign(vertical),obj_bloco))
+					{
+						y += sign(vertical);
+					}
+				else
+					{
+					vertical = 0;
+					break;
+					}
+			}
 	#endregion
 	
 }
