@@ -24,8 +24,8 @@
   "properties": [],
   "overriddenProperties": [],
   "parent": {
-    "name": "controladoras",
-    "path": "folders/Objects/controladoras.yy",
+    "name": "Controladoras",
+    "path": "folders/Objects/Controladoras.yy",
   },
   "resourceVersion": "1.0",
   "name": "obj_bloco",

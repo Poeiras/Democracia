@@ -6,7 +6,7 @@
     "path": "folders/Scripts.yy",
   },
   "resourceVersion": "1.0",
-  "name": "sct_player_debug",
+  "name": "sct_player_criacoes",
   "tags": [],
   "resourceType": "GMScript",
 }

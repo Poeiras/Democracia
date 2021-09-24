@@ -10,15 +10,25 @@ function sct_player_move(velocidade, pulo, desce,velo_run)
 	
 	#region Teclas
 		var cima,cima_r,baixo,baixo_r,dir,dir_r,esq,esq_r,run;
-		cima = keyboard_check_pressed(ord("W"));
-		cima_r = keyboard_check_released(ord("W"));
-		baixo = keyboard_check(ord("S"));
-		baixo_r = keyboard_check_released(ord("S"));
-		dir = keyboard_check(ord("D"));
-		dir_r = keyboard_check_released(ord("D"));
-		esq = keyboard_check(ord("A"));
-		esq_r = keyboard_check_released(ord("A"));
-		run = keyboard_check(vk_shift);
+		cima		= keyboard_check_pressed(ord("W"));
+		cima_r	= keyboard_check_released(ord("W"));
+		baixo		= keyboard_check(ord("S"));
+		baixo_r	= keyboard_check_released(ord("S"));
+		dir		= keyboard_check(ord("D"));
+		dir_r		= keyboard_check_released(ord("D"));
+		esq		= keyboard_check(ord("A"));
+		esq_r		= keyboard_check_released(ord("A"));
+		run		= keyboard_check(vk_shift);
+	#endregion
+
+	#region Clamp de tela
+		var xx1,xx2, yy1, yy2;
+		xx1 = 30;
+		xx2 = room_width - xx1;
+		yy1 = 41;
+		yy2 = room_height - yy1;
+		x = clamp(x, xx1, xx2);
+		y = clamp(y, yy1, yy2);
 	#endregion
 	
 	#region Variáveis locais
@@ -26,7 +36,7 @@ function sct_player_move(velocidade, pulo, desce,velo_run)
 		solido = place_meeting(x, y + 4, obj_bloco);
 		multiplicador_pulo = 1.25;
 		h1 = dir - esq;
-		h2 = x + horizontal;
+		h2 = x + sign(horizontal);
 		preso = place_meeting(x + sign(horizontal), y, obj_bloco);
 	#endregion
 	
@@ -43,16 +53,15 @@ function sct_player_move(velocidade, pulo, desce,velo_run)
 	#endregion
 	
 	#region Colisão horizontal
-	if(place_meeting(h2, y, obj_bloco))
+	if(place_meeting(x+(horizontal), y, obj_bloco))
 		{
-			while(!place_meeting(x + sign(horizontal), y, obj_bloco))
-				{
-					x = x + sign(horizontal);
-				}
+			while(!place_meeting(x+sign(horizontal), y, obj_bloco))
+			{
+				x = x + sign(horizontal);
+			}
 			horizontal = 0;
 		}
 	#endregion
-	
 	
 	#region Movimento horizontal aplicado
 		x = x + horizontal;
@@ -108,5 +117,4 @@ function sct_player_move(velocidade, pulo, desce,velo_run)
 					}
 			}
 	#endregion
-	
 }
